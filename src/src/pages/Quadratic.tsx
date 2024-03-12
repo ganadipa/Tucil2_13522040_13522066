@@ -7,7 +7,7 @@ const Quadratic = () => {
       {" "}
       <div className="flex items-center justify-center">
         <Sidebar />
-        <PageContainer num={3} />
+        <PageContainer num={3} compareMode={false} />
       </div>
     </div>
   );

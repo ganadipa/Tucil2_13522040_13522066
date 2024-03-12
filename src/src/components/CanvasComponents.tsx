@@ -1,5 +1,4 @@
-// CanvasComponent.tsx
-import { watch } from "fs";
+import { normalize } from "path";
 import React, { useRef, useEffect } from "react";
 
 type Point = {
@@ -20,35 +19,23 @@ const CanvasComponent: React.FC<CanvasProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Calculate the minimum values as well
   let MinWidth = Infinity,
-    MinHeight = Infinity;
-  for (let i = 0; i < points.length; i++) {
-    MinWidth = Math.min(points[i].x, MinWidth);
-    MinHeight = Math.min(points[i].y, MinHeight);
-  }
-
-  for (let i = 0; i < bezierPoints.length; i++) {
-    MinWidth = Math.min(bezierPoints[i].x, MinWidth);
-    MinHeight = Math.min(bezierPoints[i].y, MinHeight);
-  }
-
-  let MaxWidth = 0,
+    MinHeight = Infinity,
+    MaxWidth = 0,
     MaxHeight = 0;
-  for (let i = 0; i < points.length; i++) {
-    MaxWidth = Math.max(points[i].x, MaxWidth);
-    MaxHeight = Math.max(points[i].y, MaxHeight);
-  }
 
-  for (let i = 0; i < bezierPoints.length; i++) {
-    MaxWidth = Math.max(bezierPoints[i].x, MaxWidth);
-    MaxHeight = Math.max(bezierPoints[i].y, MaxHeight);
-  }
+  [...points, ...bezierPoints].forEach((point) => {
+    MinWidth = Math.min(point.x, MinWidth);
+    MinHeight = Math.min(point.y, MinHeight);
+    MaxWidth = Math.max(point.x, MaxWidth);
+    MaxHeight = Math.max(point.y, MaxHeight);
+  });
+
   const padding = 40;
-  const paddedWidth = 400 - padding * 2;
-  const paddedHeight = 400 - padding * 2;
+  const canvasSize = 400;
+  const paddedWidth = canvasSize - padding * 2;
+  const paddedHeight = canvasSize - padding * 2;
 
-  // Normalize to center the curve
   const Normalize = (num: number, which: "w" | "h") => {
     const range = which === "w" ? MaxWidth - MinWidth : MaxHeight - MinHeight;
     const scale = which === "w" ? paddedWidth : paddedHeight;
@@ -65,21 +52,58 @@ const CanvasComponent: React.FC<CanvasProps> = ({
     const gridSize = Math.min(width / 10, height / 10);
     context.strokeStyle = "#cbd5e1";
 
-    // Draw vertical grid lines
     for (let x = 0; x <= width; x += gridSize) {
       context.beginPath();
-      context.moveTo(x, 0);
-      context.lineTo(x, height);
+      context.moveTo(x + padding, padding);
+      context.lineTo(x + padding, height + padding);
       context.stroke();
     }
 
-    // Draw horizontal grid lines
     for (let y = 0; y <= height; y += gridSize) {
       context.beginPath();
-      context.moveTo(0, y);
-      context.lineTo(width, y);
+      context.moveTo(padding, y + padding);
+      context.lineTo(width + padding, y + padding);
       context.stroke();
     }
+  };
+
+  const drawAxes = (context: CanvasRenderingContext2D) => {
+    context.beginPath();
+    context.moveTo(canvasSize - padding / 2, canvasSize - padding);
+    context.lineTo(padding, canvasSize - padding);
+    context.lineTo(padding, padding / 2);
+    context.strokeStyle = "black";
+    context.stroke();
+
+    const gridSize = Math.min(paddedWidth / 10, paddedHeight / 10);
+
+    for (let i = 0; i <= 10; i++) {
+      const xLabel = ((MaxWidth - MinWidth) / 10) * i + MinWidth;
+      const yLabel = ((MaxHeight - MinHeight) / 10) * i + MinHeight;
+
+      // X-axis labels
+      context.fillText(
+        xLabel.toFixed(2),
+        padding + i * gridSize - 10,
+        canvasSize - padding + 15
+      );
+
+      context.fillText(yLabel.toFixed(2), 0, padding + i * gridSize);
+    }
+  };
+
+  const drawPointLabel = (
+    context: CanvasRenderingContext2D,
+    point: Point,
+    label: string
+  ) => {
+    let more = 0;
+    if (label.slice(0, 1) === "P") more = 5;
+    const labelX = Normalize(point.x, "w");
+    const labelY = Normalize(point.y, "h");
+
+    context.fillStyle = "black";
+    context.fillText(label, labelX + 5 - 3 * more, labelY - 5);
   };
 
   const drawLine = (
@@ -100,29 +124,66 @@ const CanvasComponent: React.FC<CanvasProps> = ({
     if (canvas) {
       const context = canvas.getContext("2d");
       if (context) {
-        // Clear the canvas
-        context.clearRect(0, 0, 400, 400);
+        context.clearRect(0, 0, canvasSize, canvasSize);
+        context.font = "bold 8px Arial";
 
-        // Draw the grid
-        drawGrid(context, 400, 400);
+        drawGrid(context, paddedWidth, paddedHeight);
+        drawAxes(context);
 
         if (show) {
-          // Draw the segments
           for (let i = 0; i < points.length - 1; i++) {
             drawLine(context, points[i], points[i + 1], "blue");
           }
-
-          // Draw the bezier curve
           for (let i = 0; i < bezierPoints.length - 1; i++) {
             drawLine(context, bezierPoints[i], bezierPoints[i + 1], "red");
           }
+
+          // Draw the bezier points
+          bezierPoints.forEach((point, index) => {
+            const normalizedX = Normalize(point.x, "w");
+            const normalizedY = Normalize(point.y, "h");
+
+            // Draw a black point
+            context.fillStyle = "black";
+            context.beginPath();
+            context.arc(normalizedX, normalizedY, 1, 0, Math.PI * 2, true);
+            context.fill();
+
+            // Label the point
+            if (index >= 15) index += 1;
+            const label =
+              String.fromCharCode(65 + (index % 26)) + Math.floor(index / 26);
+            drawPointLabel(context, point, label);
+          });
+
+          points.forEach((point, index) => {
+            const normalizedX = Normalize(point.x, "w");
+            const normalizedY = Normalize(point.y, "h");
+
+            // Draw a black point
+            context.fillStyle = "black";
+            context.beginPath();
+            context.arc(normalizedX, normalizedY, 1, 0, Math.PI * 2, true);
+            context.fill();
+
+            // Label the point
+            if (index < 26) {
+              const label = "P" + index;
+              drawPointLabel(context, point, label);
+            }
+          });
         }
       }
     }
-  }); // Redraw when points, bezierPoints, width, or height change
+  });
 
   return (
-    <canvas ref={canvasRef} width={400} height={400} className="bg-zinc-100" />
+    <canvas
+      ref={canvasRef}
+      width={canvasSize}
+      height={canvasSize}
+      className="bg-zinc-100"
+    />
   );
 };
 

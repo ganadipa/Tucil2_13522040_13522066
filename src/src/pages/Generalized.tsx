@@ -16,7 +16,7 @@ const Generalized = () => {
       <input type="number" value={num} onChange={handleChange} />
       <div className="flex items-center justify-center">
         <Sidebar />
-        <PageContainer num={num} />
+        <PageContainer num={num} compareMode={false} />
       </div>
     </div>
   );
