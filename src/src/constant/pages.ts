@@ -1,5 +1,9 @@
 export const pages = [
   {
+    route: "/Guide",
+    description: "Comparing with bruteforce",
+  },
+  {
     route: "/Quadratic",
     description: "Bezier Quadratic",
   },

@@ -5,14 +5,15 @@ import InputTable from "./Input";
 import { BezierCurve } from "../logic/Bezier";
 
 const PageContainer = ({
-  num,
   compareMode,
+  generalized,
 }: {
-  num: number;
   compareMode: boolean;
+  generalized?: boolean;
 }) => {
+  const [degree, setDegree] = useState(3);
   const [points, setPoints] = useState<Point[]>(
-    Array.from({ length: num }, () => ({ x: 0, y: 0 }))
+    Array.from({ length: degree }, () => ({ x: 0, y: 0 }))
   );
 
   const [bezierPoints, setBezierPoints] = useState<Point[]>([]);
@@ -34,6 +35,10 @@ const PageContainer = ({
     setShow(true);
   }
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDegree(Number(event.target.value));
+  };
+
   useEffect(() => {
     setShow(true);
     if (!show) {
@@ -41,8 +46,8 @@ const PageContainer = ({
     }
   }, [bezierPoints, show]);
   useEffect(() => {
-    setPoints(Array.from({ length: num }, () => ({ x: 0, y: 0 })));
-  }, [num]);
+    setPoints(Array.from({ length: degree }, () => ({ x: 0, y: 0 })));
+  }, [degree]);
 
   useEffect(() => {
     if (animating) {
@@ -59,7 +64,9 @@ const PageContainer = ({
   }, [animating, sequence, currentShowing]);
 
   return (
-    <section className="aspect-[16/8.5] p-2 flex flex-col justify-center items-center  w-[85%] rounded-b rounded-r bg-cyan-900 shadow-xl z-0 relative gap-5">
+    <section className="aspect-[16/8.5] p-2 flex flex-col items-center  w-[85%] rounded-b rounded-r bg-cyan-900 shadow-xl z-0 relative gap-5">
+      <input type="number" value={degree} onChange={handleChange} />
+
       <InputTable points={points} setPoints={setPoints} setShow={setShow} />
       <button onClick={handleSubmit}>SUBMIT </button>
 

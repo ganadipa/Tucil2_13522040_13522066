@@ -3,10 +3,10 @@ import PageContainer from "../components/PageContainer";
 
 const Compare = () => {
   return (
-    <div className="py-12">
+    <div className="">
       <div className="flex items-center justify-center">
         <Sidebar />
-        <PageContainer num={3} compareMode={true} />
+        <PageContainer compareMode={true} />
       </div>
     </div>
   );
