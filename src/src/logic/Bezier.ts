@@ -9,11 +9,39 @@ function middlePoint(s: Segment): Point {
   };
 }
 
-// Nyoba dulu dengan iterasi ke 2
-export function QuadraticBezierCurve(
-  points: Point[],
-  iteration: number
-): Point[] {
+type QuadraticBezierCurveParams = {
+  points: Point[];
+  iteration: number;
+} & (
+  | {
+      type: "DnC";
+    }
+  | {
+      type: "Bruteforce";
+      increment: number;
+    }
+);
+
+export function QuadraticBezierCurve(params: QuadraticBezierCurveParams): {
+  points: Point[];
+  duration: number;
+} {
+  const { points, iteration, type } = params;
+  let result;
+  const startTime = performance.now();
+
+  if (type === "DnC") {
+    result = QuadraticBezierDnC(points, iteration);
+  } else {
+    const { increment } = params;
+    result = QuadraticBezierBruteForce(points, iteration, increment);
+  }
+
+  const endTime = performance.now();
+
+  return { points: result, duration: endTime - startTime };
+}
+function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
   const middle1 = middlePoint({ start: points[0], end: points[1] });
   const middle2 = middlePoint({ start: points[1], end: points[2] });
   const middle = middlePoint({ start: middle1, end: middle2 });
@@ -22,13 +50,18 @@ export function QuadraticBezierCurve(
     return [points[0], middle, points[2]];
   }
 
-  let first = QuadraticBezierCurve([points[0], middle1, middle], iteration - 1);
-  let second = QuadraticBezierCurve(
-    [middle, middle2, points[2]],
-    iteration - 1
-  );
+  let first = QuadraticBezierDnC([points[0], middle1, middle], iteration - 1);
+  let second = QuadraticBezierDnC([middle, middle2, points[2]], iteration - 1);
 
   return [...first, ...second.slice(1)];
+}
+
+function QuadraticBezierBruteForce(
+  points: Point[],
+  iteration: number,
+  increment: number
+): Point[] {
+  return QuadraticBezierBruteForce(points, iteration, increment);
 }
 
 export function BezierCurve(points: Point[], iteration: number): Point[] {

@@ -1,4 +1,3 @@
-import { normalize } from "path";
 import React, { useRef, useEffect } from "react";
 
 type Point = {
@@ -167,10 +166,8 @@ const CanvasComponent: React.FC<CanvasProps> = ({
             context.fill();
 
             // Label the point
-            if (index < 26) {
-              const label = "P" + index;
-              drawPointLabel(context, point, label);
-            }
+            const label = "P" + index;
+            drawPointLabel(context, point, label);
           });
         }
       }
