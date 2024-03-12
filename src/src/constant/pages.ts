@@ -7,6 +7,10 @@ export const pages = [
     route: "/Generalized",
     description: "Bezier Generalized",
   },
+  {
+    route: "/Compare",
+    description: "Comparing with bruteforce",
+  },
 ];
 
 // Extract the type of the 'route' property from each object in the array

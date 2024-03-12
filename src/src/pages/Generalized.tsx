@@ -9,8 +9,6 @@ const Generalized = () => {
     setNum(Number(event.target.value));
   };
 
-  console.log("num is", num);
-
   return (
     <div className="py-12">
       <input type="number" value={num} onChange={handleChange} />

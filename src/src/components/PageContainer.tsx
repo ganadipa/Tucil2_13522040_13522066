@@ -71,11 +71,15 @@ const PageContainer = ({
             show={show}
           />
         </div>
-        {animating || (
-          <button onClick={handleAnimate} className="mx-12">
-            ANIMATE
-          </button>
-        )}
+
+        <button
+          onClick={handleAnimate}
+          className={`mx-12 ${animating ? "invisible" : ""}`}
+          disabled={animating}
+        >
+          ANIMATE
+        </button>
+
         {compareMode && (
           <div>
             <CanvasComponent
