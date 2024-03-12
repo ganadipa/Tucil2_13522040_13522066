@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
-import Input from "./Input";
 import { Point } from "../types";
-import { QuadraticBezierCurve } from "../logic/Bezier";
 import CanvasComponent from "./CanvasComponents";
 import InputTable from "./Input";
+import { BezierCurve } from "../logic/Bezier";
 
-const PageContainer = () => {
-  const [points, setPoints] = useState<Point[]>([
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-  ]);
+const PageContainer = ({ num }: { num: number }) => {
+  const [points, setPoints] = useState<Point[]>(
+    Array.from({ length: num }, () => ({ x: 0, y: 0 }))
+  );
+
   const [bezierPoints, setBezierPoints] = useState<Point[]>([]);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (show) {
-      setBezierPoints(QuadraticBezierCurve(points, 2));
+      setBezierPoints(BezierCurve(points, 3));
     }
   }, [show, setBezierPoints, points]);
+
+  useEffect(() => {
+    setPoints(Array.from({ length: num }, () => ({ x: 0, y: 0 })));
+  }, [num]);
 
   function handleSubmit() {
     setShow(true);
@@ -34,6 +36,7 @@ const PageContainer = () => {
         bezierPoints={bezierPoints}
         show={show}
       />
+      <button onClick={handleSubmit}>ANIMATE</button>
     </section>
   );
 };
