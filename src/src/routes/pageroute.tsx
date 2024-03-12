@@ -14,8 +14,6 @@ const PageRoute = () => {
     const handleResize = () => {
       if (window.innerWidth < 900) {
         navigate("/NotIntend");
-      } else {
-        navigate("/Guide");
       }
     };
 
