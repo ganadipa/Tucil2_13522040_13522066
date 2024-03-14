@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Quadratic from "../pages/Quadratic";
-import Generalized from "../pages/Generalized";
 import { DefaultRedirection } from "./redirect";
 import Compare from "../pages/Compare";
 import Guide from "../pages/Guide";
 import NotIntend from "../pages/NotIntend";
+import Main from "../pages/Main";
+import Quadratic2 from "../pages/Quadratic2";
+import Generalized2 from "../pages/Generalized2";
+import Generalized from "../pages/Generalized";
 
 const PageRoute = () => {
   const navigate = useNavigate();
@@ -27,10 +30,13 @@ const PageRoute = () => {
     <>
       <Routes>
         <Route path="/quadratic" element={<Quadratic />} />
+        <Route path="/quadratic2" element={<Quadratic2 />} />
         <Route path="/generalized" element={<Generalized />} />
+        <Route path="/generalized2" element={<Generalized2 />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/notintend" element={<NotIntend />} />
+        <Route path="/" element={<Main />} />
         <Route path="*" element={<DefaultRedirection />} />
       </Routes>
     </>

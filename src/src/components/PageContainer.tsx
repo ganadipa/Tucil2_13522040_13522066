@@ -45,6 +45,9 @@ const PageContainer = ({
       setBezierPoints([]);
     }
   }, [bezierPoints, show]);
+
+  console.log(show);
+  console.log(bezierPoints);
   useEffect(() => {
     setPoints(Array.from({ length: degree }, () => ({ x: 0, y: 0 })));
   }, [degree]);
@@ -65,7 +68,9 @@ const PageContainer = ({
 
   return (
     <section className="aspect-[16/8.5] p-2 flex flex-col items-center  w-[85%] rounded-b rounded-r bg-cyan-900 shadow-xl z-0 relative gap-5">
-      <input type="number" value={degree} onChange={handleChange} />
+      {generalized && (
+        <input type="number" value={degree} onChange={handleChange} />
+      )}
 
       <InputTable points={points} setPoints={setPoints} setShow={setShow} />
       <button onClick={handleSubmit}>SUBMIT </button>
