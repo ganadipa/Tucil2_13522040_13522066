@@ -8,8 +8,8 @@ type PointsTableProps = {
 const PointsTable: React.FC<PointsTableProps> = ({ points }) => {
   const getLabel = (index: number) => {
     const letters = "ABCDEFGHIJKLMNOQRSTUVWXYZ";
-    const quotient = Math.floor(index / 26);
-    const remainder = index % 26;
+    const quotient = Math.floor(index / 25);
+    const remainder = index % 25;
     return letters[remainder] + quotient.toString();
   };
 

@@ -1,4 +1,8 @@
+import { blue } from "@mui/material/colors";
+import { type } from "@testing-library/user-event/dist/type";
+import { useState } from "react";
 import { Point, Segment } from "../types";
+import { QuadraticBezierBruteForce } from "./BezierBruteForce";
 
 function middlePoint(s: Segment): Point {
   const xp = (s.start.x + s.end.x) / 2;
@@ -18,7 +22,6 @@ type QuadraticBezierCurveParams = {
     }
   | {
       type: "Bruteforce";
-      increment: number;
     }
 );
 
@@ -33,8 +36,7 @@ export function QuadraticBezierCurve(params: QuadraticBezierCurveParams): {
   if (type === "DnC") {
     result = QuadraticBezierDnC(points, iteration);
   } else {
-    const { increment } = params;
-    result = QuadraticBezierBruteForce(points, iteration, increment);
+    result = QuadraticBezierBruteForce(points, iteration);
   }
 
   const endTime = performance.now();
@@ -56,12 +58,19 @@ function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
   return [...first, ...second.slice(1)];
 }
 
-function QuadraticBezierBruteForce(
-  points: Point[],
-  iteration: number,
-  increment: number
-): Point[] {
-  return QuadraticBezierBruteForce(points, iteration, increment);
+export function DnCBezierCurve(points: Point[], iteration: number) {
+  const startTime = performance.now();
+  console.log("=================== inside ===============");
+  const result = BezierCurve(points, iteration);
+  console.log("points is: ", points);
+  console.log("result is: ", result);
+  console.log("iteration is: ", iteration);
+  console.log("=================== inside ===============");
+  const endTime = performance.now();
+  return {
+    points: result,
+    duration: endTime - startTime,
+  };
 }
 
 export function BezierCurve(points: Point[], iteration: number): Point[] {
@@ -109,7 +118,7 @@ export function BezierCurve(points: Point[], iteration: number): Point[] {
     }
     another.reverse();
 
-    return result.concat(another);
+    return [points[0], middles[degree - 1][0], points[degree - 1]];
   } else {
     return BezierCurve(first, iteration - 1).concat(
       BezierCurve(second, iteration - 1).slice(1)

@@ -3,7 +3,7 @@ import { AuthorsContainer } from "./Main";
 import CanvasComponent from "../components/CanvasComponents";
 import { Point } from "../types";
 import { Switch, alpha, duration, styled } from "@mui/material";
-import { BezierCurve, QuadraticBezierCurve } from "../logic/Bezier";
+import { QuadraticBezierCurve } from "../logic/Bezier";
 import toast from "react-hot-toast";
 import PointsTable from "../components/PointsTable";
 
@@ -85,9 +85,8 @@ const Quadratic2 = () => {
     } else {
       const { points, duration } = QuadraticBezierCurve({
         points: controlPoints,
-        iteration: 2,
+        iteration: numIteration,
         type: "Bruteforce",
-        increment: 2,
       });
       result = points;
       dur = duration;
@@ -115,7 +114,6 @@ const Quadratic2 = () => {
           points: controlPoints,
           iteration: iteration,
           type: "Bruteforce",
-          increment: 0.01,
         });
       }
     };
@@ -220,7 +218,8 @@ const Quadratic2 = () => {
               </div>
               <div>
                 <p className="text-stone-500 font-poppins font-medium">
-                  Execution time: <span>{duration}</span> seconds.
+                  Execution time: <span>{Number(duration).toFixed(5)}</span>{" "}
+                  milliseconds.
                 </p>
               </div>
               <div className="flex flex-row items-center justify-center gap-4">
@@ -250,7 +249,7 @@ const Quadratic2 = () => {
         </section>
       </div>
       {/*Curve points*/}
-      {showResultPoints && (
+      {showResultPoints && bezierPoints.length > 0 && (
         <section className="flex items-center justify-center">
           <PointsTable points={bezierPoints} />
         </section>
