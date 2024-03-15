@@ -1,4 +1,4 @@
-import { Point, Segment } from "../types";
+import { Point, Segment } from "../src/types";
 import { QuadraticBezierBruteForce } from "./BezierBruteForce";
 
 function middlePoint(s: Segment): Point {
@@ -98,14 +98,14 @@ export function BezierCurve(points: Point[], iteration: number): Point[] {
   }
 
   if (iteration === 1) {
-    let result = [];
+    let result: Point[] = [];
     for (let i = 0; i < degree; i += 2) {
       result.push(middles[i][0]);
     }
 
     if (degree & 1) result = result.slice(0, -1);
 
-    let another = [];
+    let another: Point[] = [];
     for (let i = 0; i < degree; i += 2) {
       another.push(middles[i].at(-1) as Point);
     }

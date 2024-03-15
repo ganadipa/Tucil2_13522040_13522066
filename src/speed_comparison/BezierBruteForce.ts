@@ -1,4 +1,4 @@
-import { Point } from "../types";
+import { Point, Segment } from "../src/types";
 
 export function QuadraticBezierBruteForce(
   points: Point[],

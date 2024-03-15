@@ -121,7 +121,7 @@ const Generalized2 = () => {
     }
 
     if (numIteration > 18 || numIteration < 1) {
-      toast.error("Number of iteration must be between 1 and 15 inclusively.");
+      toast.error("Number of iteration must be between 1 and 85 inclusively.");
       return;
     }
 
@@ -141,8 +141,6 @@ const Generalized2 = () => {
   };
 
   useEffect(() => {
-    console.log("bezier points: ", bezierPoints);
-    console.log("cnotrol points: ", controlPoints);
   }, [bezierPoints, controlPoints]);
 
   const handleAnimate: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -156,7 +154,7 @@ const Generalized2 = () => {
     }
 
     if (numIteration > 18 || numIteration < 1) {
-      toast.error("Number of iteration must be between 1 and 15 inclusively.");
+      toast.error("Number of iteration must be between 1 and 18 inclusively.");
       return;
     }
 

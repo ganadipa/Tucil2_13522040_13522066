@@ -46,8 +46,6 @@ const PageContainer = ({
     }
   }, [bezierPoints, show]);
 
-  console.log(show);
-  console.log(bezierPoints);
   useEffect(() => {
     setPoints(Array.from({ length: degree }, () => ({ x: 0, y: 0 })));
   }, [degree]);
