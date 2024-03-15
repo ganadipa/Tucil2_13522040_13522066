@@ -46,7 +46,7 @@ function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
   const middle2 = middlePoint({ start: points[1], end: points[2] });
   const middle = middlePoint({ start: middle1, end: middle2 });
 
-  if (iteration === 1) {
+  if (iteration <= 1) {
     return [points[0], middle, points[2]];
   }
 
@@ -63,8 +63,6 @@ function QuadraticBezierBruteForce(
 ): Point[] {
   return QuadraticBezierBruteForce(points, iteration, increment);
 }
-
-
 
 export function BezierCurve(points: Point[], iteration: number): Point[] {
   const degree = points.length;

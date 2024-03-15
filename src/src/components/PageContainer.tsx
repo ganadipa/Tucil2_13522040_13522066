@@ -77,11 +77,11 @@ const PageContainer = ({
 
       <div className="flex flex-row justify-center items-center">
         <div>
-          <CanvasComponent
+          {/* <CanvasComponent
             points={points}
             bezierPoints={bezierPoints}
             show={show}
-          />
+          /> */}
         </div>
 
         <button
@@ -94,11 +94,11 @@ const PageContainer = ({
 
         {compareMode && (
           <div>
-            <CanvasComponent
+            {/* <CanvasComponent
               points={points}
               bezierPoints={bezierPoints}
               show={show}
-            />
+            /> */}
           </div>
         )}
       </div>

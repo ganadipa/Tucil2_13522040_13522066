@@ -9,12 +9,14 @@ interface CanvasProps {
   points: Point[];
   bezierPoints: Point[];
   show: boolean;
+  showResultPoints: boolean;
 }
 
 const CanvasComponent: React.FC<CanvasProps> = ({
   points,
   bezierPoints,
   show,
+  showResultPoints,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -30,17 +32,20 @@ const CanvasComponent: React.FC<CanvasProps> = ({
     MaxHeight = Math.max(point.y, MaxHeight);
   });
 
-  const padding = 40;
   const canvasSize = 400;
+  const padding = canvasSize / 10;
   const paddedWidth = canvasSize - padding * 2;
   const paddedHeight = canvasSize - padding * 2;
 
   const Normalize = (num: number, which: "w" | "h") => {
     const range = which === "w" ? MaxWidth - MinWidth : MaxHeight - MinHeight;
     const scale = which === "w" ? paddedWidth : paddedHeight;
-    return (
-      padding + ((num - (which === "w" ? MinWidth : MinHeight)) / range) * scale
-    );
+
+    const result =
+      padding +
+      ((num - (which === "w" ? MinWidth : MinHeight)) / range) * scale;
+    const ret = which === "h" ? canvasSize - result : result;
+    return ret;
   };
 
   const drawGrid = (
@@ -74,11 +79,30 @@ const CanvasComponent: React.FC<CanvasProps> = ({
     context.strokeStyle = "black";
     context.stroke();
 
+    // Arrow head for X axis
+    drawArrowhead(
+      context,
+      { x: canvasSize - padding, y: canvasSize - padding },
+      { x: canvasSize - padding / 2, y: canvasSize - padding },
+      5
+    );
+
+    context.fillText("X", canvasSize - padding / 2 + 10, canvasSize - padding);
+
+    // Arrow head for Y axis
+    drawArrowhead(
+      context,
+      { x: padding, y: padding },
+      { x: padding, y: padding / 2 },
+      5
+    );
+    context.fillText("Y", padding, padding / 2 - 10);
+
     const gridSize = Math.min(paddedWidth / 10, paddedHeight / 10);
 
     for (let i = 0; i <= 10; i++) {
       const xLabel = ((MaxWidth - MinWidth) / 10) * i + MinWidth;
-      const yLabel = ((MaxHeight - MinHeight) / 10) * i + MinHeight;
+      const yLabel = ((MaxHeight - MinHeight) / 10) * (10 - i) + MinHeight;
 
       // X-axis labels
       context.fillText(
@@ -118,6 +142,44 @@ const CanvasComponent: React.FC<CanvasProps> = ({
     context.stroke();
   };
 
+  const drawArrowhead = (
+    context: CanvasRenderingContext2D,
+    from: Point,
+    to: Point,
+    radius: number
+  ) => {
+    let x_center = to.x;
+    let y_center = to.y;
+
+    let angle;
+    let x;
+    let y;
+
+    context.beginPath();
+
+    angle = Math.atan2(to.y - from.y, to.x - from.x);
+    x = radius * Math.cos(angle) + x_center;
+    y = radius * Math.sin(angle) + y_center;
+
+    context.moveTo(x, y);
+
+    angle += (1 / 3) * (2 * Math.PI);
+    x = radius * Math.cos(angle) + x_center;
+    y = radius * Math.sin(angle) + y_center;
+
+    context.lineTo(x, y);
+
+    angle += (1 / 3) * (2 * Math.PI);
+    x = radius * Math.cos(angle) + x_center;
+    y = radius * Math.sin(angle) + y_center;
+
+    context.lineTo(x, y);
+
+    context.closePath();
+
+    context.fill();
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
@@ -138,22 +200,24 @@ const CanvasComponent: React.FC<CanvasProps> = ({
           }
 
           // Draw the bezier points
-          bezierPoints.forEach((point, index) => {
-            const normalizedX = Normalize(point.x, "w");
-            const normalizedY = Normalize(point.y, "h");
+          if (showResultPoints) {
+            bezierPoints.forEach((point, index) => {
+              const normalizedX = Normalize(point.x, "w");
+              const normalizedY = Normalize(point.y, "h");
 
-            // Draw a black point
-            context.fillStyle = "black";
-            context.beginPath();
-            context.arc(normalizedX, normalizedY, 1, 0, Math.PI * 2, true);
-            context.fill();
+              // Draw a black point
+              context.fillStyle = "black";
+              context.beginPath();
+              context.arc(normalizedX, normalizedY, 1, 0, Math.PI * 2, true);
+              context.fill();
 
-            // Label the point
-            if (index >= 15) index += 1;
-            const label =
-              String.fromCharCode(65 + (index % 26)) + Math.floor(index / 26);
-            drawPointLabel(context, point, label);
-          });
+              // Label the point
+              if (index >= 15) index += 1;
+              const label =
+                String.fromCharCode(65 + (index % 26)) + Math.floor(index / 26);
+              drawPointLabel(context, point, label);
+            });
+          }
 
           points.forEach((point, index) => {
             const normalizedX = Normalize(point.x, "w");
@@ -179,7 +243,7 @@ const CanvasComponent: React.FC<CanvasProps> = ({
       ref={canvasRef}
       width={canvasSize}
       height={canvasSize}
-      className="bg-zinc-100"
+      className="bg-putih"
     />
   );
 };
