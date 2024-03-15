@@ -29,12 +29,12 @@ const PageRoute = () => {
   return (
     <>
       <Routes>
-        <Route path="/quadratic" element={<Quadratic />} />
-        <Route path="/quadratic2" element={<Quadratic2 />} />
-        <Route path="/generalized" element={<Generalized />} />
-        <Route path="/generalized2" element={<Generalized2 />} />
-        <Route path="/compare" element={<Compare />} />
-        <Route path="/guide" element={<Guide />} />
+        {/* <Route path="/quadratic" element={<Quadratic />} /> */}
+        <Route path="/quadratic" element={<Quadratic2 />} />
+        <Route path="/generalized" element={<Generalized2 />} />
+        {/* <Route path="/generalized2" element={<Generalized2 />} /> */}
+        {/* <Route path="/compare" element={<Compare />} />
+        <Route path="/guide" element={<Guide />} /> */}
         <Route path="/notintend" element={<NotIntend />} />
         <Route path="/" element={<Main />} />
         <Route path="*" element={<DefaultRedirection />} />

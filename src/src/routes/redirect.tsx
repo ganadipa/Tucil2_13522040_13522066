@@ -11,7 +11,7 @@ export function DefaultRedirection() {
       if (screenWidth < 768) {
         setRoute("/NotIntend");
       } else {
-        setRoute("/Guide");
+        setRoute("/");
       }
     };
 

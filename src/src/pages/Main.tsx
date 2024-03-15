@@ -14,12 +14,12 @@ const Main = () => {
 
       {/* Buttons container */}
       <div className="flex flex-col gap-[10px]">
-        <Link to="/quadratic2">
+        <Link to="/quadratic">
           <button className="bg-hijaua font-poppins font-semibold text-putih w-44 h-12 rounded-xl text-base">
             Quadratic
           </button>
         </Link>
-        <Link to="/generalized2">
+        <Link to="/generalized">
           <button className="bg-putih font-poppins font-semibold text-hijaua w-44 h-12 rounded-xl border-2 text-base border-hijaua">
             N-control points
           </button>
