@@ -64,6 +64,8 @@ function QuadraticBezierBruteForce(
   return QuadraticBezierBruteForce(points, iteration, increment);
 }
 
+
+
 export function BezierCurve(points: Point[], iteration: number): Point[] {
   const degree = points.length;
   let middles: Point[][] = [];
