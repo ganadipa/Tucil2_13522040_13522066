@@ -1,9 +1,10 @@
-import { Point, Segment } from "../src/types";
+import { Point } from "../src/types";
 
 export function QuadraticBezierBruteForce(
   points: Point[],
   iteration: number
 ): Point[] {
+  if (iteration === 0) return points;
   let numSteps: number = countNumSteps(3, iteration); //Menghitung banyaknya (titik) pada suatu iterasi
   const stepSize: number = 1.0 / (numSteps - 1); //Menghitung jarak antar titik pada suatu iterasi
   let returnArr: Point[] = [];

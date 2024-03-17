@@ -63,7 +63,10 @@ export function QuadraticBezierCurve(params: QuadraticBezierCurveParams): {
  * @param iteration number of iterations
  * @returns bezier curve points
  */
-function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
+export function QuadraticBezierDnC(
+  points: Point[],
+  iteration: number
+): Point[] {
   if (iteration === 0) {
     return points;
   }
