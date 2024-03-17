@@ -30,6 +30,13 @@ export function QuadraticBezierCurve(params: QuadraticBezierCurveParams): {
   let result;
   const startTime = performance.now();
 
+  if (iteration === 0) {
+    return {
+      points,
+      duration: performance.now() - startTime,
+    };
+  }
+
   if (type === "DnC") {
     result = QuadraticBezierDnC(points, iteration);
   } else {
@@ -41,6 +48,7 @@ export function QuadraticBezierCurve(params: QuadraticBezierCurveParams): {
   return { points: result, duration: endTime - startTime };
 }
 function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
+  if (iteration === 0) return points;
   const middle1 = middlePoint({ start: points[0], end: points[1] });
   const middle2 = middlePoint({ start: points[1], end: points[2] });
   const middle = middlePoint({ start: middle1, end: middle2 });
@@ -56,6 +64,7 @@ function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
 }
 
 export function DnCBezierCurve(points: Point[], iteration: number) {
+  if (iteration === 0) return points;
   const startTime = performance.now();
 
   const result = BezierCurve(points, iteration);

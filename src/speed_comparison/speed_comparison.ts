@@ -20,16 +20,18 @@ function main() {
 
   let time = performance.now();
   for (let i = 0; i < 1; i++) {
-    QuadraticBezierCurve({ points, iteration: 22, type: "DnC" });
+    console.log(QuadraticBezierCurve({ points, iteration: 3, type: "DnC" }));
   }
   console.log("DnC:", performance.now() - time, " milliseconds");
   time = performance.now();
   for (let i = 0; i < 1; i++) {
-    QuadraticBezierCurve({
-      points,
-      iteration: 22,
-      type: "Bruteforce",
-    });
+    console.log(
+      QuadraticBezierCurve({
+        points,
+        iteration: 3,
+        type: "Bruteforce",
+      })
+    );
   }
   console.log("Bruteforce:", performance.now() - time, " milliseconds");
 }
