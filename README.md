@@ -47,7 +47,7 @@ Atau jika OS Windows, bisa menggunakan
 speed_comparison.bat
 ```
 
-<h3 id="speed-comp">Run stress test</h3>
+<h3 id="test">Run stress test</h3>
 
 Untuk melakukan stress testing pada UNIX-like OS, gunakan
 
