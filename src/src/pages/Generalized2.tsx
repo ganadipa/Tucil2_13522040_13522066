@@ -140,8 +140,7 @@ const Generalized2 = () => {
     setDuration(duration);
   };
 
-  useEffect(() => {
-  }, [bezierPoints, controlPoints]);
+  useEffect(() => {}, [bezierPoints, controlPoints]);
 
   const handleAnimate: MouseEventHandler<HTMLButtonElement> = (e) => {
     if (animating) {
@@ -213,7 +212,7 @@ const Generalized2 = () => {
               <textarea
                 disabled
                 className="w-[250px] p-2 h-[300px] border-2 border-gray-300 rounded-md bg-gray-400/50"
-                value={`<N> (number of control points)\n<P0_x> <P0_y>\n<P1_x> <P2_y>\n...\n<PN_x> <PN_y>\n`}
+                value={`<N> (number of control points)\n<P0_x> <P0_y>\n<P1_x> <P2_y>\n...\n<PN-1_x> <PN-1_y>\n`}
               />
             </div>
           </div>

@@ -64,7 +64,6 @@ function QuadraticBezierDnC(points: Point[], iteration: number): Point[] {
 }
 
 export function DnCBezierCurve(points: Point[], iteration: number) {
-  if (iteration === 0) return points;
   const startTime = performance.now();
 
   const result = BezierCurve(points, iteration);
@@ -76,6 +75,7 @@ export function DnCBezierCurve(points: Point[], iteration: number) {
 }
 
 export function BezierCurve(points: Point[], iteration: number): Point[] {
+  if (iteration === 0) return points;
   const degree = points.length;
   let middles: Point[][] = [];
 
@@ -107,19 +107,6 @@ export function BezierCurve(points: Point[], iteration: number): Point[] {
   }
 
   if (iteration === 1) {
-    let result = [];
-    for (let i = 0; i < degree; i += 2) {
-      result.push(middles[i][0]);
-    }
-
-    if (degree & 1) result = result.slice(0, -1);
-
-    let another = [];
-    for (let i = 0; i < degree; i += 2) {
-      another.push(middles[i].at(-1) as Point);
-    }
-    another.reverse();
-
     return [points[0], middles[degree - 1][0], points[degree - 1]];
   } else {
     return BezierCurve(first, iteration - 1).concat(
