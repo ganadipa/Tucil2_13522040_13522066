@@ -1,7 +1,5 @@
 import React from "react";
 
-// Define the type for the points and the setter function if using TypeScript
-// If you're not using TypeScript, you can remove these type definitions.
 type Point = {
   x: number;
   y: number;

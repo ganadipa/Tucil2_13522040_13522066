@@ -2,13 +2,10 @@ import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Quadratic from "../pages/Quadratic";
 import { DefaultRedirection } from "./redirect";
-import Compare from "../pages/Compare";
-import Guide from "../pages/Guide";
 import NotIntend from "../pages/NotIntend";
 import Main from "../pages/Main";
 import Quadratic2 from "../pages/Quadratic2";
 import Generalized2 from "../pages/Generalized2";
-import Generalized from "../pages/Generalized";
 
 const PageRoute = () => {
   const navigate = useNavigate();
@@ -24,7 +21,7 @@ const PageRoute = () => {
     window.addEventListener("resize", handleResize); // Add resize listener
 
     return () => window.removeEventListener("resize", handleResize); // Cleanup listener on unmount
-  }, [navigate]); // Dependency array with navigate to avoid adding multiple listeners
+  }, [navigate]);
 
   return (
     <>

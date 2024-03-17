@@ -21,7 +21,7 @@ export function DefaultRedirection() {
 
     // Cleanup function to remove the event listener
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty dependency array ensures this effect runs once on mount and unmount
+  }, []);
 
   return <Navigate to={route} />;
 }
