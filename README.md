@@ -16,7 +16,7 @@ Tugas kecil ini berisi program menggunakan bahasa typescript dan library react s
 
 ### Requirement
 
-Diperlukan node package manager (npm).
+Diperlukan node package manager (npm), node js, dan typescript compiler.
 
 ### Post Requirement
 
