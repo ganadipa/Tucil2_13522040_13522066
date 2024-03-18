@@ -5,7 +5,7 @@
 - <a href="#description">Deskripsi</a>
 - <a href="#feature">Fitur</a>
 - <a href="#identity">Identitas</a>
-- <a href="#format">Formmat Input</a>
+- <a href="#format">Format Input</a>
 
 <h2 id="description">Deskripsi</h2>
 Tugas kecil ini berisi program menggunakan bahasa typescript dan library react sebagai web apps.
