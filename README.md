@@ -5,6 +5,7 @@
 - <a href="#description">Deskripsi</a>
 - <a href="#feature">Fitur</a>
 - <a href="#identity">Identitas</a>
+- <a href="#format">Formmat Input</a>
 
 <h2 id="description">Deskripsi</h2>
 Tugas kecil ini berisi program menggunakan bahasa typescript dan library react sebagai web apps.
@@ -60,6 +61,9 @@ Atau jika OS Windows, bisa menggunakan
 ```bash
 stress_test.bat
 ```
+
+<h2 id="format">Format input</h2>
+Format input mengikuti petunjuk yang ada di web apps.
 
 <h2 id="identity">Identitas</h2>
 
